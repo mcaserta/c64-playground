@@ -30,9 +30,9 @@ chcursorleft    = $9d
         lda     sidnsval        ; load a random value
         sta     chrcolor        ; set character color
         clc                     ; clear carry bit
-        lda     sidnsval        ; load a random value
+        lda     sidnsval        ; load a random value for row num, last is #24
         tax                     ; transfer A to X
-        lda     sidnsval        ; load a random value
+        lda     sidnsval        ; load a random value for col num, last is #39
         tay                     ; transfer A to Y
         jsr     plot            ; set x,y cursor coordinates
         lda     sidnsval        ; load a random value
