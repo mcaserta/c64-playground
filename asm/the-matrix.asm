@@ -26,9 +26,9 @@ chclrscr        = $93           ; clear screen
 !addr   colorram = $d800        ; start of mapped screen color memory
 
         jsr .sids               ; init SID for pseudo random number generation
-.strt
         lda     #$00            ; set 0 (black)
         sta     bordercl        ; as border color
+.strt
         jsr     .rand           ; set random number
         sta     bordrcl1        ; as char background color 1
         jsr     .rand           ; set random number
@@ -53,10 +53,10 @@ chclrscr        = $93           ; clear screen
 
 .loop   ; label for loop location
         jsr     .rand           ; load pseudo random number in register A
-        tay                     ; transfer value of register A to register X
+        tay                     ; transfer value of register A to register Y
         jsr     .rand           ; load pseudo random number in register A
         sta     (zpfb),y        ; write random character in raw screen memory at 
-        sta     (zpfd),y        ; write random character in raw screen memory at 
+        sta     (zpfd),y        ; write random color in raw screen memory at 
         inc     zpfc            ; increment char memory page
         inc     zpfe            ; increment color memory page
         dex                     ; decrement memory page index
