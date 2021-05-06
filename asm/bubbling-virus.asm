@@ -15,17 +15,20 @@ chcursorup      = $91
 chcursorleft    = $9d
 
 !addr   chrcolor = $0268        ; set character color
-!addr   sidnsspd = $d40f        ; SID frequency voice 3 high byte
+!addr   sidnsspl = $d40e        ; SID frequency voice 3 high byte
+!addr   sidnssph = $d40f        ; SID frequency voice 3 high byte
 !addr   sidnswav = $d412        ; SID control register voice 3
-!addr   sidnsval = $d41b        ; noise random value
+!addr   sidnsval = $d41b        ; SID noise random value
 !addr   chrout  = $ffd2         ; kernal output char
 !addr   plot    = $fff0         ; set x,y cursor coordinates
 
         lda     #chclrscr
         jsr     chrout          ; clear the screen
-        lda     #%10000000      ; set this value in:
-        sta     sidnsspd        ; the noise speed hi SID register
-        sta     sidnswav        ; and the noise waveform SID register
+        lda     #$ff            ; max out
+        sta     sidnsspl        ; the noise speed low SID register
+        sta     sidnssph        ; the noise speed high SID register
+        lda     #%10000000      ; set noise generator mode in:
+        sta     sidnswav        ; the waveform SID register
 .loop   ; label for loop location
         lda     sidnsval        ; load a random value
         sta     chrcolor        ; set character color
