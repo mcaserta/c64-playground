@@ -3,15 +3,25 @@
 #define BUFSZ 8
 
 void dump(unsigned char c, unsigned int addr) {
-  putchar(c & 0b10000000 ? ' ' : '#');
-  putchar(c & 0b01000000 ? ' ' : '#');
-  putchar(c & 0b00100000 ? ' ' : '#');
-  putchar(c & 0b00010000 ? ' ' : '#');
-  putchar(c & 0b00001000 ? ' ' : '#');
-  putchar(c & 0b00000100 ? ' ' : '#');
-  putchar(c & 0b00000010 ? ' ' : '#');
-  putchar(c & 0b00000001 ? ' ' : '#');
-  printf(" 0x%04x\n", addr);
+  printf("0x%04x 0x%02x ", addr, c);
+  putchar(c & 0b10000000 ? '1' : '0');
+  putchar(c & 0b01000000 ? '1' : '0');
+  putchar(c & 0b00100000 ? '1' : '0');
+  putchar(c & 0b00010000 ? '1' : '0');
+  putchar(c & 0b00001000 ? '1' : '0');
+  putchar(c & 0b00000100 ? '1' : '0');
+  putchar(c & 0b00000010 ? '1' : '0');
+  putchar(c & 0b00000001 ? '1' : '0');
+  putchar(' ');
+  putchar(c & 0b10000000 ? '#' : ' ');
+  putchar(c & 0b01000000 ? '#' : ' ');
+  putchar(c & 0b00100000 ? '#' : ' ');
+  putchar(c & 0b00010000 ? '#' : ' ');
+  putchar(c & 0b00001000 ? '#' : ' ');
+  putchar(c & 0b00000100 ? '#' : ' ');
+  putchar(c & 0b00000010 ? '#' : ' ');
+  putchar(c & 0b00000001 ? '#' : ' ');
+  putchar('\n');
 }
 
 int main(int argc, char ** argv) {
