@@ -8,6 +8,7 @@ black           = $00           ; the color black
 white           = $01           ; the color white
 chclrscr        = $93           ; clear screen
 
+!addr   zp01    = $01           ; zero page address $01
 !addr   zpfb    = $fb           ; zero page address $fb
 !addr   zpfc    = $fc           ; zero page address $fc
 !addr   zpfd    = $fd           ; zero page address $fd
@@ -15,6 +16,7 @@ chclrscr        = $93           ; clear screen
 !addr   scrmem  = $0400         ; start of mapped screen character memory
 !addr   scrmode = $d011         ; screen mode
 !addr   rasterln = $d012        ; current raster line
+!addr   charaddr = $d018        ; character set memory address pointer
 !addr   bordercl = $d020        ; screen outer border color
 !addr   bordrcl1 = $d021        ; background color #1
 !addr   bordrcl2 = $d022        ; background color #2
@@ -28,6 +30,7 @@ chclrscr        = $93           ; clear screen
 
 .init   ; initialization
         jsr     .sids           ; init SID for pseudo random number generation
+        jsr     .lccs
         lda     #black          ; set black
         sta     bordercl        ; as border color
         sta     bordrcl1        ; as screen background color
@@ -82,3 +85,15 @@ chclrscr        = $93           ; clear screen
         lda     #$0d            ; set light green
         rts                     ; register A is now holding a pseudo random color number
 
+.lccs   ; load custom character set
+        lda     zp01
+        ora     #4
+        sta     zp01
+        lda     charaddr
+        and     #240
+        ora     #12
+        sta     charaddr
+        rts
+
+*=      $3000                   ; dump the japanese char rom at this address
+!binary "../roms/characters.906143-02.bin"
