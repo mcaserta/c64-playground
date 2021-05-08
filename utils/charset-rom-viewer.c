@@ -40,7 +40,7 @@ int main(int argc, char ** argv) {
   while ((bytes = fread(buf, sizeof * buf, readsz, fp)) == readsz) {
     for (i = 0; i < readsz; i++)
       dump(buf[i], charcount * 8 + i);
-    printf("\n======== #%i\n\n", charcount++);
+    printf("\n============================= #%i\n\n", charcount++);
   }
   for (i = 0; i < bytes; i++) /* output final partial buf */
     dump(buf[i], charcount * 8 + i);
