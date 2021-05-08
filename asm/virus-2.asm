@@ -30,9 +30,19 @@ chclrscr        = $93           ; clear screen
         jsr     .sids           ; init SID for pseudo random number generation
         lda     #black          ; set black
         sta     bordercl        ; as border color
-        sta     bordrcl1        ; as screen background color
 
 .strt   ; start of outer loop location
+        jsr     .prcg           ; set random color
+        sta     bordrcl1        ; as char background color 1
+        jsr     .prcg           ; set random color
+        sta     bordrcl2        ; as char background color 2
+        jsr     .prcg           ; set random color
+        sta     bordrcl3        ; as char background color 3
+        jsr     .prcg           ; set random color
+        sta     bordrcl4        ; as char background color 4
+        lda     scrmode         ; load screen mode configuration in accumulator
+        ora     #$40            ; set the extended color mode flag
+        sta     scrmode         ; set screen mode with extended color mode flag set
         ldx     #$04            ; initialize register X with 4
                                 ; we will later use this register to index
                                 ; the screen char and color address pages
@@ -71,14 +81,12 @@ chclrscr        = $93           ; clear screen
         rts                     ; register A is now holding a pseudo random number
 
 .prcg   ; pseudo random color generator
-        ; picks from green ($05) and light green ($0d)
+        ; picks all 16 colors except black (0) and white (1)
         jsr     .prng           ; load pseudo random number in register A
-        and     #$01            ; mask the rightmost bit
-        cmp     #$00            ; if off
-        beq     .setlg          ; set light green
-        lda     #$05            ; set green
-        rts
-.setlg
-        lda     #$0d            ; set light green
+        !for    i, 1, 4 { lsr } ; right shift 4 times, so we get a 4 bits value
+        cmp     #black          ; if black
+        beq     .prcg           ; try again
+        cmp     #white          ; if white
+        beq     .prcg           ; try again
         rts                     ; register A is now holding a pseudo random color number
 
