@@ -3,14 +3,14 @@
 #define BUFSZ 8
 
 void dump(unsigned char c, unsigned int addr) {
-  printf(c & 0b10000000 ? " " : "#");
-  printf(c & 0b01000000 ? " " : "#");
-  printf(c & 0b00100000 ? " " : "#");
-  printf(c & 0b00010000 ? " " : "#");
-  printf(c & 0b00001000 ? " " : "#");
-  printf(c & 0b00000100 ? " " : "#");
-  printf(c & 0b00000010 ? " " : "#");
-  printf(c & 0b00000001 ? " " : "#");
+  putchar(c & 0b10000000 ? ' ' : '#');
+  putchar(c & 0b01000000 ? ' ' : '#');
+  putchar(c & 0b00100000 ? ' ' : '#');
+  putchar(c & 0b00010000 ? ' ' : '#');
+  putchar(c & 0b00001000 ? ' ' : '#');
+  putchar(c & 0b00000100 ? ' ' : '#');
+  putchar(c & 0b00000010 ? ' ' : '#');
+  putchar(c & 0b00000001 ? ' ' : '#');
   printf(" 0x%04x\n", addr);
 }
 
