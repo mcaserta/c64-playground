@@ -52,7 +52,25 @@ chclrscr        = $93           ; clear screen
         inc     zpfe            ; increment color memory page
         dex                     ; decrement memory page index
         bne     .loop           ; if memory page index > 0, branch to loop label
+        jsr     .rota           ; jump to rotate subroutine
         jmp     .strt           ; repeat from start
+
+.rota   ; rotate random chunks of text
+        lda     #$04
+        sta     zpfc
+        jsr     .preg           ; load a random nibble value
+        adc     #$01
+        tay
+        tax
+.rotb
+        lda     (zpfb),y
+        dey
+        sta     (zpfb),y
+        iny
+        iny
+        dex
+        bne     .rotb
+        rts
 
 .sids   ; setup sid for noise generation
         lda     #$ff            ; max out
@@ -67,12 +85,23 @@ chclrscr        = $93           ; clear screen
         eor     rasterln        ; perform an exclusive or with current raster line
         rts                     ; register A is now holding a pseudo random number
 
+.prbg   ; pseudo random bit generator
+        lda     sidnsval        ; load a random value from SID noise generator
+        eor     rasterln        ; perform an exclusive or with current raster line
+        and     #$01            ; mask the rightmost bit
+        rts                     ; register A is now holding a pseudo random bit
+
+.preg   ; pseudo random nibble generator
+        lda     sidnsval        ; load a random value from SID noise generator
+        eor     rasterln        ; perform an exclusive or with current raster line
+        !for i, 1, 4 { lsr }    ; shift bits right 4 times
+        rts                     ; register A is now holding a pseudo random nibble
+
 .prcg   ; pseudo random color generator
         ; picks from green ($05) and light green ($0d)
-        jsr     .prng           ; load pseudo random number in register A
-        and     #$01            ; mask the rightmost bit
+        jsr     .prbg           ; load pseudo random bit in register A
         cmp     #$00            ; if off
-        beq     .slg            ; set light green
+        beq     .slg            ; branch to set light green
         lda     #$05            ; set green
         rts                     ; return from subroutine
 .slg
@@ -80,11 +109,11 @@ chclrscr        = $93           ; clear screen
         rts                     ; return from subroutine
 
 .lccs   ; load custom character set
-        lda     zp01
-        ora     #4
-        sta     zp01
-        lda     charaddr
-        and     #240
+        lda     zp01            ; this does some dark magic with
+        ora     #4              ; the memory mapping in order to
+        sta     zp01            ; make the VIC-II point to the
+        lda     charaddr        ; character set we're loading
+        and     #240            ; at $3000
         ora     #12
         sta     charaddr
         rts
