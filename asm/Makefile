@@ -7,7 +7,7 @@ all: prgs
 %.prg: %.asm
 	$(ASM) $(ASMFLAGS) -o $@ $<
 
-prgs: bubbling-virus.prg the-matrix.prg virus-2.prg
+prgs: 10-print.prg bubbling-virus.prg the-matrix.prg virus-2.prg
 
 .PHONY: clean
 clean:
