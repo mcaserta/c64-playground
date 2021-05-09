@@ -13,20 +13,14 @@ chclrscr        = $93           ; clear screen
 !addr   zpfc    = $fc           ; zero page address $fc
 !addr   zpfd    = $fd           ; zero page address $fd
 !addr   zpfe    = $fe           ; zero page address $fe
-!addr   scrmem  = $0400         ; start of mapped screen character memory
-!addr   scrmode = $d011         ; screen mode
 !addr   rasterln = $d012        ; current raster line
 !addr   charaddr = $d018        ; character set memory address pointer
 !addr   bordercl = $d020        ; screen outer border color
 !addr   bordrcl1 = $d021        ; background color #1
-!addr   bordrcl2 = $d022        ; background color #2
-!addr   bordrcl3 = $d023        ; background color #3
-!addr   bordrcl4 = $d024        ; background color #4
 !addr   sidnsspl = $d40e        ; SID frequency voice 3 low byte
 !addr   sidnssph = $d40f        ; SID frequency voice 3 high byte
 !addr   sidnswav = $d412        ; SID control register voice 3
 !addr   sidnsval = $d41b        ; SID noise random value
-!addr   colorram = $d800        ; start of mapped screen color memory
 
 .init   ; initialization
         jsr     .sids           ; init SID for pseudo random number generation
@@ -78,12 +72,12 @@ chclrscr        = $93           ; clear screen
         jsr     .prng           ; load pseudo random number in register A
         and     #$01            ; mask the rightmost bit
         cmp     #$00            ; if off
-        beq     .setlg          ; set light green
+        beq     .slg            ; set light green
         lda     #$05            ; set green
-        rts
-.setlg
+        rts                     ; return from subroutine
+.slg
         lda     #$0d            ; set light green
-        rts                     ; register A is now holding a pseudo random color number
+        rts                     ; return from subroutine
 
 .lccs   ; load custom character set
         lda     zp01
