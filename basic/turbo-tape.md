@@ -5,7 +5,7 @@
 The original C64 [Turbo Tape](https://en.wikipedia.org/wiki/Fast_loader)
 software had an iconic effect which made the screen border flash with colors.
 
-I now understand why: it only requires one line in the assembler (well... if
+I now understand why: it only requires one cpu instruction (well... if
 you exclude the loop setup):
 
 ```
@@ -16,7 +16,9 @@ you exclude the loop setup):
 I think this must have been used by the old timers as a debugging technique:
 you only needed to throw an `inc $d020` in a subroutine that did something
 boring (like reading from tape) and you had a visual feedback that your
-assembly loop was running okay. Brilliant, isn't it?
+assembly loop was running okay. Not only that: by the speed and the patterns in
+the flashing border you could see how fast the iterations were going. Brilliant,
+isn't it?
 
 ## How to Turbo Tape (sort of...)
 
