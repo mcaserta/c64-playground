@@ -3,7 +3,12 @@
 The original C64 [Turbo Tape](https://en.wikipedia.org/wiki/Fast_loader)
 software had an iconic effect which made the screen border flash with colors.
 
-I now understand why: it only requires 2 lines in the assembler.
+I now understand why: it only requires 2 lines in the assembler:
+
+```
+.loop     inc    $d020
+          jmp    .loop
+```
 
 Open the [Vice
 monitor](https://codebase64.org/doku.php?id=base:using_the_vice_monitor) and
