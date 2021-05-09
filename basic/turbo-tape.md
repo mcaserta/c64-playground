@@ -72,6 +72,8 @@ Let's go through each step:
   to address `$2000` and start execution from there. By running this command
   you should see the border effect in action on screen. 
 
+The whole program takes 6 bytes.
+
 ## Basic version
 
 Can we do all this in basic? Sure. First of all, let's convert our hexadecimal
@@ -94,15 +96,13 @@ that writes our binary code in memory:
 50 poke a + 3, 76
 60 poke a + 4, 0
 70 poke a + 5, 32
-80 poke a + 6, 0
-90 poke a + 7, 0
 
 run
 
 sys 8192
 ```
 
-When we issue the `run` command, the basic program executes and the memory is now
+When we issue the `run` command, the basic program executes and the memory gets
 set up exactly as we did in the Vice monitor using the assembler.
 
 Now we only need to tell the system to jump to memory location 8192 and start
