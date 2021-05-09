@@ -49,7 +49,7 @@ Let's go through each step:
    Let's look at each byte individually:
    - `ee` is the `inc` processor opcode and is followed by its address input
    which is `20 d0`, which is simply `$d020` as the processor very much likes
-   the read 16 bit wide addresses starting with the least significant 8 bits.
+   to read 16 bit wide addresses starting with the least significant 8 bits.
    Let me explain: if your address is `$d020`, you split it into 2 separate
    bytes: `$d0` and `$20` and then swap them: `$20` `$d0`. This is the cpu
    representation format.
