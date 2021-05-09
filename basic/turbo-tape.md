@@ -72,6 +72,8 @@ Let's go through each step:
   to address `$2000` and start execution from there. By running this command
   you should see the border effect in action on screen. 
 
+## Basic version
+
 Can we do all this in basic? Sure. First of all, let's convert our hexadecimal
 values in our more familiar decimal format:
 
