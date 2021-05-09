@@ -27,7 +27,7 @@ Let's go through each step:
    color is set. Incrementing that value will cycle through all the available
    colors. As the memory location has a size of 1 byte, the increment
    instruction will bring the value from 0 to 255. When 255 is reached, the
-   value wraps back to 0 and the cycle starts again. The C64 only has 16 colors
+   value wraps back to 0 and the cycle starts back. The C64 only has 16 colors
    so what happens when the value hits 16? The color cycle wraps and 16 is read
    as it was 0 (black) and so on.
 2. we are still assembling here: `jmp $2000` is an unconditional jump to memory
@@ -45,7 +45,7 @@ Let's go through each step:
    - `ee` is the `inc` processor opcode and is followed by its address input
    which is `20 d0`, which is simply `$d020` as the processor very much likes
    the read 16 bit wide addresses starting with the least significant 8 bits.
-   Let me explain: if your address is `$d020`, ylu split it into 2 separate
+   Let me explain: if your address is `$d020`, you split it into 2 separate
    bytes: `$d0` and `$20` and then swap them: `$20` `$d0`. This is the cpu
    representation format.
    - `4c` is the `jmp` processor opcode and is also followed by its address
@@ -53,14 +53,20 @@ Let's go through each step:
    represented in memory for the processor 
 6. in the last line we are telling the monitor to set the PC (Program Counter)
    to address `$2000` and start execution from there. By running this command
-   you should see the border effect on screen. 
+   you should see the border effect in action on screen. 
+
+
+Can we do all this in basic? Yes. First of all, let's convert our hexadecimal
+values in our more familiar decimal format:
 
 - `$2000 = 8192`
 - `$ee = 238`
 - `$d0 = 208`
 - `$20 = 32`
 - `$4c = 76`
-- `$d020 = 53280`
+
+With this conversion table in mind, we can now write a little basic program
+that writes our binary code in memory:
 
 ```basic
 10 a = 8192
@@ -77,3 +83,9 @@ run
 
 sys 8192
 ```
+
+When we issue the `run` command, the basic program executes and the memory is now
+set up exactly as we did in the Vice monitor using the assembler.
+
+Now we only need to tell the system to jump to memory location 8192 and start
+execution from there, just as we did by typing `g 2000` in the monitor.
