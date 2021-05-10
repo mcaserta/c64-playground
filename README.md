@@ -16,14 +16,14 @@ a 386 compatible.
 These days the net is full of love for retro computing. The 64 is
 definitely no exception.
 
-You might ask why would anyone today concern herself with 40 years old
+You might ask why would anyone today concern himself with 40 years old
 technology. Well, because it's *fun*, you grumpy old twat!
 It also lets you approach computer science at its most basic level of
 bits and bytes with an architecture that is far more easily understood
-than today's Intel/AMD/NVidia/Arm64e complexity monsters.
+than today's Intel/AMD/NVidia/VIA/Arm64e complexity monsters.
 
 The availability of free/open source software emulators makes the
-exploration experience extremely excellent.
+exploration experience extremely excellently exciting and exceptional.
 
 ## What this is
 
@@ -48,6 +48,9 @@ the time. Well, it still is, mostly.
 Gianfranco was also an Internet pioneer. He used to run
 a [local e-zine](http://www.ciociari.com/) full of contributions of
 all kinds from his loving friends. It still is very popular in town.
+
+Gianfranco also believed in the ideal of a universally connected 
+humanity as was evident in his love of the esperanto language.
 
 As I try and learn things about the computer I grew up with as a kid,
 I cannot stop thinking of the carefree days I spent at Gianfranco's
