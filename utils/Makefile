@@ -5,4 +5,4 @@ charset-rom-viewer: charset-rom-viewer.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 clean : 
-	rm -f charset-rom-viewer
+	rm -fr charset-rom-viewer *.dSYM
