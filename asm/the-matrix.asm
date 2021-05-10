@@ -41,6 +41,8 @@ rndmod          = $02           ; display mode: random
         sta     keybuffr        ; disable keyboard buffer
         lda     #127
         sta     keyrpeat        ; disable key repeat
+        lda     #rndmod
+        sta     dispmod         ; start in random display mode
 
 .strt   ; start of outer loop location
         ldx     #$04            ; initialize register X with 4
