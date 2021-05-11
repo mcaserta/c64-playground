@@ -1,9 +1,9 @@
 ASM=cl65
-ASMFLAGS=-u __EXEHDR__ -t c64 -C c64-asm.cfg
+ASMFLAGS=-u __EXEHDR__ -t c64 -C ./c64-asm.cfg
 C1541=c1541
 
 .PHONY: all
-all: 10-print.d64
+all: 10-print.d64 the-matrix.d64
 
 %.prg: %.s
 	$(ASM) -o $@ $(ASMFLAGS) $<
