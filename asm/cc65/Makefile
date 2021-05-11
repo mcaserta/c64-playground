@@ -9,7 +9,7 @@ all: 10-print.d64
 	$(ASM) -o $@ $(ASMFLAGS) $<
 
 %.d64: %.prg
-	$(C1541) -format $@,00 d64 $@ -attach $@ -write $< $@
+	$(C1541) -format '$@,00' d64 $@ -attach $@ -write $< $@
 
 .PHONY: clean
 clean:

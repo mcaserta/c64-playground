@@ -271,4 +271,4 @@ rndmod          = $02           ; display mode: random
         rts
 
 *=      $3000                   ; dump the japanese char rom at this address
-!binary "../roms/characters.906143-02.bin"
+!binary "../../roms/characters.906143-02.bin"
