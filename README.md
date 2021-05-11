@@ -49,8 +49,9 @@ Gianfranco was also an Internet pioneer. He used to run
 a [local e-zine](http://www.ciociari.com/) full of contributions of
 all kinds from his loving friends. It still is very popular in town.
 
-Gianfranco also believed in the ideal of a universally connected 
-humanity as was evident in his love of the esperanto language.
+Gianfranco also believed in the ideal of a universally connected humanity as
+was evident in his love of the [esperanto
+language](https://eo.wikipedia.org/wiki/Gianfranco_Molle).
 
 As I try and learn things about the computer I grew up with as a kid,
 I cannot stop thinking of the carefree days I spent at Gianfranco's
