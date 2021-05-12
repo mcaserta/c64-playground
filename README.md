@@ -4,6 +4,11 @@
 
 # C64 Playground
 
+> The best learners are the people who push through the discomfort 
+> of being objectively bad at something.
+> — <cite>Tommy Collison</cite>
+
+
 ## Motivation
 
 Many kids in the eighties grew up with a Commodore 64 home computer. I
