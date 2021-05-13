@@ -1,15 +1,18 @@
 ; This file is intended for use with the cc65 cross-assembler.
 ; Code formatted with https://github.com/nanochess/pretty6502
 
+.macpack        generic
+
 black           = $00           ; the color black
 white           = $01           ; the color white
-chclrscr        = $93           ; clear screen
 binmod          = $00           ; display mode: binary
 hexmod          = $01           ; display mode: hex
 rndmod          = $02           ; display mode: random
 
 zp01            = $01           ; zero page address $01
-dispmod         = $02           ; zero page address $02, we use this to store the display mode
+zp02            = $02           ; zero page address $02, we use this to store the display mode
+zpb0            = $b0           ; zero page address $b0, we use this to store the delay amount
+zpb1            = $b1           ; zero page address $b1, delay counter
 zpfb            = $fb           ; zero page address $fb
 zpfc            = $fc           ; zero page address $fc
 zpfd            = $fd           ; zero page address $fd
@@ -28,8 +31,9 @@ keyscan         = $ff9f         ; scan keyboard - kernal routine
 keyread         = $ffe4         ; read keyboard buffer - kernal routine
 
 init:   ; initialization
-        jsr     sids           ; init SID for pseudo random number generation
-        jsr     lccs
+        jsr     sids            ; init SID for pseudo random number generation
+        jsr     clsc            ; clear screen
+        jsr     lccs            ; load japanese character set
         lda     #black          ; set black
         sta     bordercl        ; as border color
         sta     bordrcl1        ; as screen background color
@@ -38,7 +42,9 @@ init:   ; initialization
         lda     #127
         sta     keyrpeat        ; disable key repeat
         lda     #rndmod
-        sta     dispmod         ; start in random display mode
+        sta     zp02            ; start in random display mode
+        lda     #$7f
+        sta     zpb0            ; start in mid speed mode
 
 strt:   ; start of outer loop location
         ldx     #$04            ; initialize register X with 4
@@ -53,9 +59,10 @@ strt:   ; start of outer loop location
         sta     zpfe
 
 loop:   ; start of inner loop location
+        jsr     dlay            ; introduce delay
         jsr     prng            ; load pseudo random number in register A
         tay                     ; transfer value of register A to register Y
-        lda     dispmod         ; read display mode
+        lda     zp02            ; read display mode
         cmp     #binmod
         beq     bina
         cmp     #hexmod
@@ -69,7 +76,7 @@ reta:
         inc     zpfe            ; increment color memory page
         dex                     ; decrement memory page index
         bne     loop            ; if memory page index > 0, branch to loop label
-        jsr     keyb
+        jsr     keyb            ; read keyboard
         jmp     strt            ; repeat from start
 
 bina:   ; write binary char to screen memory
@@ -90,33 +97,41 @@ rnda:   ; write random char to screen memory
 keyb:   ; keyboard reading routine
         jsr     keyscan
         jsr     keyread
-        cmp     #$42            ; B
+        cmp     #$42            ; 'B'
         beq     binm            ; binary display mode
-        cmp     #$4d            ; M
+        cmp     #$43            ; 'C'
+        beq     clsc            ; clear screen
+        cmp     #$44            ; 'D'
+        beq     mids            ; middle speed mode
+        cmp     #$46            ; 'F'
+        beq     fast            ; fast mode
+        cmp     #$4d            ; 'M'
         beq     col1            ; increment background color
-        cmp     #$4e            ; N
+        cmp     #$4e            ; 'N'
         beq     col2            ; increment border color
-        cmp     #$51            ; Q
+        cmp     #$51            ; 'Q'
         beq     quit            ; return to basic
-        cmp     #$52            ; R
+        cmp     #$52            ; 'R'
         beq     rndm            ; random display mode
-        cmp     #$58            ; X
+        cmp     #$53            ; 'S'
+        beq     slow            ; slow mode
+        cmp     #$58            ; 'X'
         beq     hexm            ; hex display mode
         rts
 
 binm:   ; sets binary display mode
         lda     #binmod
-        sta     dispmod
+        sta     zp02
         rts
 
 hexm:   ; sets hex display mode
         lda     #hexmod
-        sta     dispmod
+        sta     zp02
         rts
 
 rndm:   ; sets random display mode
         lda     #rndmod
-        sta     dispmod
+        sta     zp02
         rts
 
 col1:   ; increment background color
@@ -129,6 +144,37 @@ col2:   ; increment border color
 
 quit:   ; well... I guess this returns to basic
         brk                     ; return to basic
+
+fast:   ; fast mode
+        lda     #$01
+        sta     zpb0
+        rts
+
+mids:   ; middle speed mode
+        lda     #$7f
+        sta     zpb0
+        rts
+
+slow:   ; slow mode
+        lda     #$00
+        sta     zpb0
+        rts
+
+clsc:   ; clear screen
+        ldx     #$ff
+        ldy     #$00
+clsl:   ; clear screen start of loop
+        jsr     prng
+        sta     zpfb
+        jsr     pr2g
+        add     #$04
+        sta     zpfc
+        lda     #$20
+        sta     (zpfb),y        ; write character in raw screen memory
+        jsr     dlay
+        dex
+        bne     clsl
+        rts
 
 sids:   ; setup sid for noise generation
         lda     #$ff            ; max out
@@ -148,6 +194,14 @@ prbg:   ; pseudo random bit generator
         eor     rasterln        ; perform an exclusive or with current raster line
         and     #$01            ; mask the rightmost bit
         rts                     ; register A is now holding a pseudo random bit
+
+pr2g:   ; pseudo random 2 bit value generator (0-3)
+        lda     sidnsval        ; load a random value from SID noise generator
+        eor     rasterln        ; perform an exclusive or with current raster line
+        .repeat    6 
+        lsr  ; shift bits right 4 times
+        .endrep
+        rts                     ; register A is now holding a pseudo random 2 bit value
 
 preg:   ; pseudo random nibble generator
         lda     sidnsval        ; load a random value from SID noise generator
@@ -266,6 +320,14 @@ lccs:   ; load custom character set
         and     #240            ; at $3000
         ora     #12
         sta     charaddr
+        rts
+
+dlay:   ; delay
+        lda     zpb0
+        sta     zpb1
+dlal:
+        dec     zpb1        
+        bne     dlal
         rts
 
 .segment "CHARSET"
