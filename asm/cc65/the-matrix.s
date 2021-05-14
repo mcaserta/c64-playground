@@ -32,7 +32,6 @@ keyread         = $ffe4         ; read keyboard buffer - kernal routine
 
 init:   ; initialization
         jsr     sids            ; init SID for pseudo random number generation
-        jsr     clsc            ; clear screen
         jsr     lccs            ; load japanese character set
         lda     #black          ; set black
         sta     bordercl        ; as border color
@@ -161,8 +160,10 @@ slow:   ; slow mode
         rts
 
 clsc:   ; clear screen
-        ldx     #$ff
+        ldx     #$ff            ; inner loop counter
         ldy     #$00
+        lda     #$14            ; repeat inner loop this many times
+        pha
 clsl:   ; clear screen start of loop
         jsr     prng
         sta     zpfb
@@ -174,7 +175,13 @@ clsl:   ; clear screen start of loop
         jsr     dlay
         dex
         bne     clsl
+        pla
+        sub     #$01
+        bne     cls2
         rts
+cls2:
+        pha
+        jmp     clsl
 
 sids:   ; setup sid for noise generation
         lda     #$ff            ; max out
