@@ -12,6 +12,7 @@ A collection of links.
 - [Basic disassembly](https://github.com/mist64/c64ref/blob/master/c64disasm/c64disasm_ms.txt)
 - [Ultimate C64 reference](https://www.pagetable.com/c64ref/c64disasm/)
 - [6502/6510 Maths](https://codebase64.org/doku.php?id=base:6502_6510_maths)
+- [6510 Unintended Opcodes](https://csdb.dk/release/?id=198357)
 
 
 ## Tools
