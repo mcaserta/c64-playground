@@ -6,6 +6,7 @@ A collection of links.
 ## Reference
 
 - [6502 instruction set](https://www.masswerk.at/6502/6502_instruction_set.html)
+- [6502 opcodes](https://www.pagetable.com/c64ref/6502/)
 - [Character set](https://www.aivosto.com/articles/petscii.pdf)
 - [Color palette](https://www.c64-wiki.com/wiki/Color)
 - [Kernal disassembly](https://github.com/mist64/c64ref/blob/master/c64disasm/c64disasm_cbm.txt)
