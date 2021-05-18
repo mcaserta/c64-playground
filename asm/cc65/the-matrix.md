@@ -8,6 +8,7 @@ Starts with `SYS 4096`.
 |-----|-----|
 | `B` | binary display mode |
 | `X` | hex display mode |
+| `G` | dna display mode |
 | `R` | random (full charset) display mode (default) |
 | `S` | slow speed mode |
 | `M` | middle speed mode |

@@ -8,6 +8,7 @@ white           = $01           ; the color white
 binmod          = $00           ; display mode: binary
 hexmod          = $01           ; display mode: hex
 rndmod          = $02           ; display mode: random
+dnamod          = $03           ; display mode: dna
 
 zp01            = $01           ; zero page address $01
 zp02            = $02           ; zero page address $02, we use this to store the display mode
@@ -66,6 +67,8 @@ loop:   ; start of inner loop location
         beq     bina
         cmp     #hexmod
         beq     hexa
+        cmp     #dnamod
+        beq     dnaa
         cmp     #rndmod
         beq     rnda
 reta:
@@ -88,6 +91,11 @@ hexa:   ; write hex char to screen memory
         sta     (zpfb),y        ; write character in raw screen memory
         jmp     reta
 
+dnaa:   ; write dna char to screen memory
+        jsr     gend
+        sta     (zpfb),y        ; write character in raw screen memory
+        jmp     reta
+
 rnda:   ; write random char to screen memory
         jsr     prng
         sta     (zpfb),y        ; write character in raw screen memory
@@ -104,6 +112,8 @@ keyb:   ; keyboard reading routine
         beq     mids            ; middle speed mode
         cmp     #$46            ; 'F'
         beq     fast            ; fast mode
+        cmp     #$47            ; 'G'
+        beq     dnam            ; dna display mode
         cmp     #$4d            ; 'M'
         beq     col1            ; increment background color
         cmp     #$4e            ; 'N'
@@ -125,6 +135,11 @@ binm:   ; sets binary display mode
 
 hexm:   ; sets hex display mode
         lda     #hexmod
+        sta     zp02
+        rts
+
+dnam:   ; sets dna display mode
+        lda     #dnamod
         sta     zp02
         rts
 
@@ -234,6 +249,30 @@ genb:   ; generate random binary char (0/1)
         adc     #47             ; make it either a 0 or a 1 character
         rts                     ; return from subroutine
 
+gend:   ; generate random dna char (ACGT)
+        jsr     pr2g            ; load pseudo random 2 bit value in register A
+        cmp     #$00
+        beq     rtd0
+        cmp     #$01
+        beq     rtd1
+        cmp     #$02
+        beq     rtd2
+        cmp     #$03
+        beq     rtd3
+        rts
+rtd0:
+        lda     #01
+        rts
+rtd1:
+        lda     #03
+        rts
+rtd2:
+        lda     #07
+        rts
+rtd3:
+        lda     #20
+        rts
+
 genx:   ; generate random hexadecimal char (0-9,a-f)
         jsr     preg            ; load pseudo random nibble in register A
         cmp     #$00
@@ -269,7 +308,6 @@ genx:   ; generate random hexadecimal char (0-9,a-f)
         cmp     #$0f
         beq     rt0f
         rts
-
 rt00:
         lda     #48
         rts
