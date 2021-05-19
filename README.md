@@ -1,3 +1,5 @@
+![Commodore 64 Playground](img/logo.png)
+
 ![The Commodore 64](img/640px-Commodore64.jpg)
 
 [Photo by Bill Bertram](https://commons.wikimedia.org/w/index.php?curid=180885)
