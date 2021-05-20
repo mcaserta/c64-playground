@@ -4,15 +4,13 @@
 
 | key | use |
 |-----|-----|
-| `B` | binary display mode |
-| `X` | hex display mode |
-| `G` | dna display mode |
-| `R` | random (full charset) display mode (default) |
-| `S` | slow speed mode |
-| `M` | middle speed mode |
-| `F` | fast speed mode |
-| `N` | increments border color |
-| `M` | increments background color |
+| `B` | binary mode |
+| `H` | hex mode |
+| `D` | dna mode |
+| `F` | full charset mode (default) |
+| `A` | amber mode |
+| `G` | green mode |
+| `L` | lgbtq mode |
 | `Q` | quit |
 
 
