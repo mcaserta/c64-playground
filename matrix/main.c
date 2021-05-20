@@ -14,7 +14,11 @@
 #define DM_HEX 2
 #define DM_DNA 3
 
-#define NUM_COMETS 40
+#define COLOR_MODE_GREEN 0
+#define COLOR_MODE_AMBER 1
+#define COLOR_MODE_LGBTQ 2
+
+#define NUM_COMETS 80
 
 typedef struct {
   unsigned char x; // head column
@@ -25,6 +29,7 @@ typedef struct {
 } comet_t;
 
 static unsigned char displaymode = DM_FUL;
+static unsigned char colormode = COLOR_MODE_GREEN;
 static comet_t comets[NUM_COMETS];
 
 unsigned char randglyph(void) {
@@ -67,24 +72,49 @@ unsigned char randcolumn(void) {
 
 unsigned char randheadcolor() {
   unsigned char c = prng();
-  c = c >> 6;
 
-  switch (c) {
-    case 0: return COLOR_WHITE;
-    case 1: return COLOR_CYAN;
-    case 2: return COLOR_GREEN;
-    case 3: return COLOR_LIGHTGREEN;
+  switch(colormode) {
+    case COLOR_MODE_GREEN:
+      c = c >> 6;
+      switch (c) {
+        case 0: return COLOR_WHITE;
+        case 1: return COLOR_CYAN;
+        case 2: return COLOR_GREEN;
+        case 3: return COLOR_LIGHTGREEN;
+      }
+    case COLOR_MODE_AMBER:
+      c = c >> 6;
+      switch (c) {
+        case 0: return COLOR_RED;
+        case 1: return COLOR_VIOLET;
+        case 2: return COLOR_ORANGE;
+        case 3: return COLOR_LIGHTRED;
+      }
   }
+
+  return c;
 }
 
 unsigned char randtailcolor() {
   unsigned char c = prng();
-  c = c >> 7;
 
-  switch (c) {
-    case 0: return COLOR_GREEN;
-    case 1: return COLOR_LIGHTGREEN;
+  switch(colormode) {
+    case COLOR_MODE_GREEN:
+      c = c >> 7;
+      switch (c) {
+        case 0: return COLOR_GREEN;
+        case 1: return COLOR_LIGHTGREEN;
+      }
+    case COLOR_MODE_AMBER:
+      c = c >> 7;
+      switch (c) {
+        case 0: return COLOR_ORANGE;
+        case 1: return COLOR_LIGHTRED;
+      }
   }
+
+  c = c >> 4;
+  return c;
 }
 
 unsigned char randcycles(void) {
@@ -111,7 +141,7 @@ unsigned char randlen(void) {
 void initcomets(void) {
   unsigned char i;
 
-  for (i = 0; i < 40; i++) {
+  for (i = 0; i < NUM_COMETS; i++) {
     comets[i].x = randcolumn();
     comets[i].y = 0;
     comets[i].count = 0;
@@ -122,7 +152,6 @@ void initcomets(void) {
 
 void __fastcall__ drawglyph(unsigned char x, unsigned char y, unsigned char glyph, unsigned char color) {
   if (x < 40 && y < 25 && color < 16) {
-//    printf("x=%02d, y=%02d, g=%03d, c=%02d\n", x, y, glyph, color);
     textcolor(color);
     cputcxy(x, y, glyph);
   }
@@ -139,11 +168,14 @@ int main(void) {
       clrscr();
 
       switch(cgetc()) {
-        case 'b': displaymode = DM_BIN; break;
-        case 'd': displaymode = DM_DNA; break;
+        case 'a': colormode = COLOR_MODE_AMBER; break;
+        case 'b': displaymode = DM_BIN; lcc2(); break;
+        case 'd': displaymode = DM_DNA; lcc2(); break;
+        case 'g': colormode = COLOR_MODE_GREEN; break;
+        case 'l': colormode = COLOR_MODE_LGBTQ; break;
         case 'q': return EXIT_SUCCESS; break;
-        case 'f': displaymode = DM_FUL; break;
-        case 'h': displaymode = DM_HEX; break;
+        case 'f': displaymode = DM_FUL; lcc1(); break;
+        case 'h': displaymode = DM_HEX; lcc2(); break;
       }
       initcomets();
     }

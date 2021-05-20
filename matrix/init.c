@@ -9,7 +9,7 @@ void init(void) {
     clrscr(); // clear screen
     bgcolor(COLOR_BLACK);
     bordercolor(COLOR_BLACK);
-    lccs(); // load custom charset
+    lcc1(); // load custom charset 1
     sids(); // setup sid for pseudo random number generation
 }
 
