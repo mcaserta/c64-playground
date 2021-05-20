@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "init.h"
+#include "random.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -13,7 +14,7 @@
 #define DM_HEX 2
 #define DM_DNA 3
 
-static unsigned char displaymode = DM_FUL;
+#define NUM_COMETS 40
 
 typedef struct {
   unsigned char x; // head column
@@ -23,8 +24,11 @@ typedef struct {
   unsigned char len; // total length = head + tail
 } comet_t;
 
+static unsigned char displaymode = DM_FUL;
+static comet_t comets[NUM_COMETS];
+
 unsigned char randglyph(void) {
-  unsigned char glyph = rand();
+  unsigned char glyph = prng();
   
   switch(displaymode) {
     case DM_FUL: break;
@@ -54,7 +58,7 @@ unsigned char randcolumn(void) {
   unsigned char col;
 
   do {
-    col = rand();
+    col = prng();
     col = col >> 2;
   } while (col > 39);
 
@@ -62,7 +66,7 @@ unsigned char randcolumn(void) {
 }
 
 unsigned char randheadcolor() {
-  unsigned char c = rand();
+  unsigned char c = prng();
   c = c >> 6;
 
   switch (c) {
@@ -74,7 +78,7 @@ unsigned char randheadcolor() {
 }
 
 unsigned char randtailcolor() {
-  unsigned char c = rand();
+  unsigned char c = prng();
   c = c >> 7;
 
   switch (c) {
@@ -84,36 +88,28 @@ unsigned char randtailcolor() {
 }
 
 unsigned char randcycles(void) {
-  unsigned char cycles;
+  unsigned char cycles = prng();
 
-  do {
-    cycles = rand();
-    cycles = cycles >> 2;
-  } while (cycles > 80);
+  cycles = cycles >> 4;
 
+  if (cycles < 4) {
+    cycles = 3;
+  }
   return cycles;
 }
 
 unsigned char randlen(void) {
-  unsigned char len = rand();
+  unsigned char len = prng();
   len = len >> 4;
-  if (len < 4) {
-    len = 3;
-  } else if (len > 12) {
-    len = 12;
+
+  if (len < 7) {
+    len = 6;
   }
   return len;
 }
 
-void printcomet(comet_t * c) {
-  printf("x=%i, y=%i, count=%i, cycles=%i, len=%i\n", c->x, c->y, c->count, c->cycles, c->len);
-}
-
-int main(void) {
-  comet_t comets[80];
-  unsigned char i, c = 0;
-
-  init();
+void initcomets(void) {
+  unsigned char i;
 
   for (i = 0; i < 40; i++) {
     comets[i].x = randcolumn();
@@ -121,27 +117,46 @@ int main(void) {
     comets[i].count = 0;
     comets[i].cycles = randcycles();
     comets[i].len = randlen();
-  //  printcomet(&comets[i]);
   }
-  
+}
+
+void __fastcall__ drawglyph(unsigned char x, unsigned char y, unsigned char glyph, unsigned char color) {
+  if (x < 40 && y < 25 && color < 16) {
+//    printf("x=%02d, y=%02d, g=%03d, c=%02d\n", x, y, glyph, color);
+    textcolor(color);
+    cputcxy(x, y, glyph);
+  }
+}
+
+int main(void) {
+  unsigned char i;
+
+  init();
+  initcomets();
+
   do {
     if (kbhit()) {
+      clrscr();
+
       switch(cgetc()) {
         case 'b': displaymode = DM_BIN; break;
         case 'd': displaymode = DM_DNA; break;
-        case 'q': clrscr(); return EXIT_SUCCESS; break;
+        case 'q': return EXIT_SUCCESS; break;
         case 'f': displaymode = DM_FUL; break;
         case 'h': displaymode = DM_HEX; break;
       }
+      initcomets();
     }
     
-    for (i = 0; i < 40; i++) {
+    for (i = 0; i < NUM_COMETS; i++) {
       if (comets[i].count == comets[i].cycles) {
-        textcolor(randtailcolor());
-        cputcxy(comets[i].x, comets[i].y, randglyph());
+        drawglyph(comets[i].x, comets[i].y, randglyph(), randtailcolor());
         comets[i].count = 0;
+        if (comets[i].y > comets[i].len) {
+          drawglyph(comets[i].x, comets[i].y - comets[i].len, ' ', COLOR_BLACK);
+        }
         comets[i].y++;
-        if (comets[i].y == 25) {
+        if (comets[i].y == 60) {
           comets[i].x = randcolumn();
           comets[i].y = 0;
           comets[i].cycles = randcycles();
@@ -149,8 +164,8 @@ int main(void) {
         }
         continue;
       }
-      textcolor(randheadcolor());
-      cputcxy(comets[i].x, comets[i].y, randglyph());
+
+      drawglyph(comets[i].x, comets[i].y, randglyph(), randheadcolor());
       comets[i].count++;
     }
   } while (TRUE);
