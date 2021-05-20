@@ -153,10 +153,10 @@ int main(void) {
         drawglyph(comets[i].x, comets[i].y, randglyph(), randtailcolor());
         comets[i].count = 0;
         if (comets[i].y > comets[i].len) {
-          drawglyph(comets[i].x, comets[i].y - comets[i].len, ' ', COLOR_BLACK);
+          drawglyph(comets[i].x, comets[i].y - comets[i].len - 1, ' ', COLOR_BLACK);
         }
         comets[i].y++;
-        if (comets[i].y == 60) {
+        if (comets[i].y == 40) {
           comets[i].x = randcolumn();
           comets[i].y = 0;
           comets[i].cycles = randcycles();
