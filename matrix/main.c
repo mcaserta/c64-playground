@@ -83,9 +83,25 @@ unsigned char randtailcolor() {
   }
 }
 
+unsigned char randcycles(void) {
+  unsigned char cycles;
+
+  do {
+    cycles = rand();
+    cycles = cycles >> 2;
+  } while (cycles > 80);
+
+  return cycles;
+}
+
 unsigned char randlen(void) {
   unsigned char len = rand();
   len = len >> 4;
+  if (len < 4) {
+    len = 3;
+  } else if (len > 12) {
+    len = 12;
+  }
   return len;
 }
 
@@ -99,11 +115,11 @@ int main(void) {
 
   init();
 
-  for (i = 0; i < 80; i++) {
+  for (i = 0; i < 40; i++) {
     comets[i].x = randcolumn();
     comets[i].y = 0;
     comets[i].count = 0;
-    comets[i].cycles = rand();
+    comets[i].cycles = randcycles();
     comets[i].len = randlen();
   //  printcomet(&comets[i]);
   }
@@ -119,14 +135,17 @@ int main(void) {
       }
     }
     
-    for (i = 0; i < 80; i++) {
+    for (i = 0; i < 40; i++) {
       if (comets[i].count == comets[i].cycles) {
         textcolor(randtailcolor());
         cputcxy(comets[i].x, comets[i].y, randglyph());
         comets[i].count = 0;
         comets[i].y++;
         if (comets[i].y == 25) {
+          comets[i].x = randcolumn();
           comets[i].y = 0;
+          comets[i].cycles = randcycles();
+          comets[i].len = randlen();
         }
         continue;
       }
@@ -134,7 +153,6 @@ int main(void) {
       cputcxy(comets[i].x, comets[i].y, randglyph());
       comets[i].count++;
     }
-    
   } while (TRUE);
 
   return EXIT_SUCCESS;
