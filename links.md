@@ -54,4 +54,5 @@ A collection of links.
 ## Videos
 
 - [25c3: The Ultimate Commodore 64 Talk](https://youtu.be/ZsRRCnque2E)
+- [Jim Butterfield Commodore 64 Training Tape](https://youtu.be/J9WnHuGjZ38)
 
