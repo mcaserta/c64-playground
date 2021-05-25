@@ -50,3 +50,8 @@ A collection of links.
 - [Mapping the C64](https://archive.org/details/Compute_s_Mapping_the_Commodore_64/)
 - [Still programming the Commodore 64: Create an assembly game step by step](https://www.amazon.it/dp/B08L8FRZP7)
 - [Programming the 65816: Including the 6502, 65C02, and 65802](https://www.amazon.it/dp/B01855HL7Q)
+
+## Videos
+
+- [25c3: The Ultimate Commodore 64 Talk](https://youtu.be/ZsRRCnque2E)
+
