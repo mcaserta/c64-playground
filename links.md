@@ -56,3 +56,7 @@ A collection of links.
 - [25c3: The Ultimate Commodore 64 Talk](https://youtu.be/ZsRRCnque2E)
 - [Jim Butterfield Commodore 64 Training Tape](https://youtu.be/J9WnHuGjZ38)
 
+## Hardware
+
+- [The C64](https://www.amazon.it/dp/B07TGDND8P/)
+- [C64 Watch](https://github.com/nickbild/c64_watch)
