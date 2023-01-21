@@ -33,6 +33,7 @@ A collection of links.
   - [binary monitor](https://vice-emu.sourceforge.io/vice_13.html#SEC281)
   - [c1541](https://vice-emu.sourceforge.io/vice_14.html#SEC317)
   - [d64 format](https://vice-emu.sourceforge.io/vice_17.html#SEC345)
+- [c64 ide](https://tamats.com/projects/mos6510/)
 - [spritemate](https://www.spritemate.com/)
 - [retropixels](https://www.micheldebree.nl/retropixels/)
 
