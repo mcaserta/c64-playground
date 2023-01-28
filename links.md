@@ -67,4 +67,5 @@ A collection of links.
 
 ## Misc
 
+- [Easy 6502](https://skilldrick.github.io/easy6502/)
 - [Not a Wizard's files and code](https://github.com/spiroharvey/c64)
