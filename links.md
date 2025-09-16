@@ -1,4 +1,3 @@
-
 # Links
 
 A collection of links.
@@ -7,7 +6,8 @@ A collection of links.
 
 - [6502 instruction set](https://www.masswerk.at/6502/6502_instruction_set.html)
 - [6502 opcodes](https://www.pagetable.com/c64ref/6502/)
-- 6502 reference cards: [#1](img/6502-refcard-1.jpg), [#2](img/6502-refcard-2.jpg)
+- 6502 reference cards: [#1](img/6502-refcard-1.jpg),
+  [#2](img/6502-refcard-2.jpg)
 - [Character set](https://www.aivosto.com/articles/petscii.pdf)
 - [Color palette](https://www.c64-wiki.com/wiki/Color)
 - [Kernal disassembly](https://github.com/mist64/c64ref/blob/master/c64disasm/c64disasm_cbm.txt)
@@ -37,13 +37,11 @@ A collection of links.
 - [spritemate](https://www.spritemate.com/)
 - [retropixels](https://www.micheldebree.nl/retropixels/)
 
-
 ## Roms
 
 - [Zimmers](http://www.zimmers.net/anonftp/pub/cbm/firmware/misc/c64carts/index.html)
 - [c64.com](https://www.c64.com/)
 - [coolrom](https://coolrom.com.au/roms/c64/)
-
 
 ## Books
 
@@ -69,3 +67,4 @@ A collection of links.
 
 - [Easy 6502](https://skilldrick.github.io/easy6502/)
 - [Not a Wizard's files and code](https://github.com/spiroharvey/c64)
+- [Development of the MOS Technology 6502: A Historical Perspective](https://www.embeddedrelated.com/showarticle/1453.php)
